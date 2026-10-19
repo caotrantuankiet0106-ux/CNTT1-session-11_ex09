@@ -1,10 +1,5 @@
-# CNTT1-session-11
-# CNTT1-session-11
-# CNTT1-session-11
-# CNTT1-session-11-ex2
-# CNTT1-session-11-ex3
-# CNTT1-session-11-ex3
-# CNTT1-session-11-ex4
-# CNTT1-session-11_07
-# CNTT1-session-11_ex08
-# CNTT1-session-11_ex09
+# Phần 1: Phân tích bài toán & Giải pháp
+Trong bài toán này, 4 tham số VLOOKUP gồm: Lookup_value là ô chứa mã tác giả tại sheet hiện tại (ví dụ C2); Table_array là vùng dữ liệu DanhMucTacGia!$A$2:$E$100 (đã cố định bằng dấu $); Col_index_num là 2 cho Tên tác giả, 4 cho Phòng và 5 cho Thù lao; còn Range_lookup dùng FALSE (hoặc 0) để tìm chính xác tuyệt đối. Để giải quyết các bẫy dữ liệu, ta dùng hàm TRIM() làm sạch khoảng trắng thừa ở mã tác giả, bọc IFERROR(..., "Chưa cập nhật") để xử lý các tác giả ngoài chưa có trong danh mục, và cố định bảng tra bằng dấu $ để tránh lệch dòng khi kéo. Các bước thực hiện tuần tự gồm: nhập công thức tại ô D2, kéo xuống dòng 81, sau đó copy sang ô E2 và F2 rồi chỉ cần thay đổi số thứ tự cột.
+
+# Phần 2: Triển khai & Chống lỗi
+Công thức hoàn chỉnh cho ô D2 (Tên Tác Giả) là =IFERROR(VLOOKUP(TRIM(C2), DanhMucTacGia!$A$2:$E$100, 2, FALSE), "Chưa cập nhật"). Tương tự cho ô E2 (Phòng) là =IFERROR(VLOOKUP(TRIM(C2), DanhMucTacGia!$A$2:$E$100, 4, FALSE), "Chưa cập nhật") và ô F2 (Thù lao) là =IFERROR(VLOOKUP(TRIM(C2), DanhMucTacGia!$A$2:$E$100, 5, FALSE), "Chưa cập nhật"). Ta chỉ cần thay đổi số thứ tự cột (Col_index_num) vì cấu trúc bảng nguồn, giá trị cần tìm và kiểu tìm kiếm được giữ nguyên. Cuối cùng, nếu bỏ dấu $ trong Table_array thành A2:E100, khi kéo công thức từ D2 xuống D5 thì vùng tra cứu sẽ bị trôi tịnh tiến xuống dưới (ví dụ từ A2:E100 thành A5:E103), khiến dữ liệu ở các dòng phía trên bị lọt ra ngoài phạm vi tìm kiếm và gây ra lỗi #N/A.
